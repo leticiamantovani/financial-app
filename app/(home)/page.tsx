@@ -17,7 +17,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
   if (!userId) {
     redirect("/login");
   }
-
+  console.log("HOME", month);
   const monthIsInvalid = !month || !isMatch(month, "MM");
   if (monthIsInvalid) {
     redirect("?month=01");
@@ -27,11 +27,13 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
     <>
       <Navbar />;
       <div className="p-6 space-y-6">
-        <div className="flex justify-between p-6">
+        <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <TimeSelect />
         </div>
-        <SummaryCards month={month} />
+        <div className="grid grid-cols-[2fr,1fr]">
+          <SummaryCards month={month} />
+        </div>
       </div>
     </>
   );

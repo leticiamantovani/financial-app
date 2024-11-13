@@ -43,6 +43,7 @@ const SummaryCards = async ({ month }: SummaryCards) => {
     )?._sum?.amount,
   );
   const balance = depositsTotal - investmentsTotal - expensesTotal;
+
   return (
     <div className="space-y-6">
       {/*PRIMEIRO CARD*/}
