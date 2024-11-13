@@ -1,4 +1,3 @@
-import { ArrowDownUpIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -115,12 +114,7 @@ export const UpsertTransactionDialog = ({
         }
       }}
     >
-      <DialogTrigger asChild>
-        <Button className="rounded-full font-bold">
-          Adicionar transação
-          <ArrowDownUpIcon />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild></DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
