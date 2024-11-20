@@ -4,8 +4,7 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader } from "../_components/ui/card";
 import { Badge, CheckIcon, XIcon } from "lucide-react";
 import AquirePlanButton from "./_components/acquire-plan-button";
-import { db } from "../_lib/prisma";
-import { endOfMonth, startOfMonth } from "date-fns";
+import { getCurrentMonthTransactions } from "../_data/get-current-month-transactions";
 
 const SubscriptionPage = async () => {
   const { userId } = await auth();
@@ -15,17 +14,9 @@ const SubscriptionPage = async () => {
   }
 
   const user = await clerkClient().users.getUser(userId);
-  const currentMonthTransactions = await db.transaction.count({
-    where: {
-      userId,
-      createdAt: {
-        gte: startOfMonth(new Date()),
-        lt: endOfMonth(new Date()),
-      },
-    },
-  });
-  const hasSubscription = user.publicMetadata.subscriptionPlan === "premium";
 
+  const hasSubscription = user.publicMetadata.subscriptionPlan === "premium";
+  const currentMonthTransactions = await getCurrentMonthTransactions();
   return (
     <>
       <Navbar />
