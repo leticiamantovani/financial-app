@@ -3,7 +3,7 @@ import { Button } from "@/app/_components/ui/button";
 import { createStripeCheckout } from "../_actions/create-checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import { useUser } from "@clerk/nextjs";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 const AquirePlanButton = () => {
   const { user } = useUser();
@@ -24,10 +24,10 @@ const AquirePlanButton = () => {
     await stripe.redirectToCheckout({ sessionId });
   };
 
-  const hasSubscription = user?.publicMetadata?.subscriptionPlan === "premium";
+  const hasSubscription = user?.publicMetadata.subscriptionPlan === "premium";
   if (hasSubscription) {
     return (
-      <Button className="w-full rounded-full font-bold" variant="link">
+      <Button className="w-full rounded-full font-bold">
         <Link
           href={`${process.env.NEXT_PUBLIC_CUSTOMER_PORTAL_URL as string}?prefilled_email=${user.emailAddresses[0].emailAddress}`}
         >

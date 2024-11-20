@@ -7,7 +7,7 @@ export const canUserAddTransaction = async () => {
     throw new Error("User not found");
   }
   const user = await clerkClient().users.getUser(userId);
-  if (user.publicMetadata.subscriptionPlan === "premium") {
+  if (user?.publicMetadata?.subscriptionPlan === "premium") {
     return true;
   }
   const currentMonthTransactions = await getCurrentMonthTransactions();

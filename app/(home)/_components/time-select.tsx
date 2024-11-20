@@ -30,7 +30,6 @@ const TimeSelect = () => {
   const month = searchParams.get("month");
 
   const handleMonthChange = (month: string) => {
-    console.log("month", typeof month);
     push(`/?month=${month}`);
   };
   return (

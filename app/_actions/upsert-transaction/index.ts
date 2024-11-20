@@ -26,7 +26,6 @@ export const upsertTransaction = async (params: UpsertTransactionParams) => {
   if (!userId) {
     throw new Error("Unauthorized");
   }
-  console.log("PARAMS", params);
   await db.transaction.upsert({
     update: { ...params, userId },
     create: { ...params, userId },

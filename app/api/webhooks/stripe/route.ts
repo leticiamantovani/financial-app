@@ -59,5 +59,5 @@ export const POST = async (request: Request) => {
       break;
     }
   }
-  return NextResponse.json("ok");
+  return NextResponse.json({ received: true });
 };

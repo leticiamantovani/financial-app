@@ -42,7 +42,9 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <div className="flex items-center gap-3">
             <AiReportButton
               month={month}
-              hasPremiumPlan={user.publicMetadata.subscription === "premium"}
+              hasPremiumPlan={
+                user?.publicMetadata?.subscriptionPlan === "premium"
+              }
             />
             <TimeSelect />
           </div>
