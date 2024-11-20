@@ -43,7 +43,7 @@ const AiReportButton = ({ month }: AiReportButtonProps) => {
           <BotIcon />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Relatório IA</DialogTitle>
           <DialogDescription>
