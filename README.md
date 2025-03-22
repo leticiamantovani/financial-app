@@ -72,16 +72,16 @@ Access [**http://localhost:3000**](http://localhost:3000) in your browser.
 ## 🖼️ Screenshots
 
 **Login and Sign In:**
-![alt text](image.png)
+![alt text](doc-images/image.png)
 
 **Dashboard:**
-![alt text](image-1.png)
+![alt text](doc-images/image-1.png)
 
 **Transactions:**
-![alt text](image-2.png)
+![alt text](doc-images/image-2.png)
 
 **Plans:**
-![alt text](image-3.png)
+![alt text](doc-images/image-3.png)
 
 ---
 
