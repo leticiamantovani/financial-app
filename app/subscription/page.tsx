@@ -15,17 +15,21 @@ const SubscriptionPage = async () => {
   }
 
   const user = await clerkClient().users.getUser(userId);
-
   const hasSubscription = user?.publicMetadata.subscriptionPlan === "premium";
   const currentMonthTransactions = await getCurrentMonthTransactions();
+
   return (
     <>
       <Navbar />
 
-      <div className="p-6 space-y-6">
-        <h1 className="font-bold-text-2xl">Assinatura</h1>
-        <div className="flex gap-6">
-          <Card className="w-[450px]">
+      <div className="container mx-auto px-4 py-8">
+        {/* Título centralizado */}
+        <h1 className="text-center text-2xl font-bold mb-10">Assinatura</h1>
+
+        {/* Cards responsivos e com mesma altura */}
+        <div className="flex flex-col md:flex-row justify-center md:items-stretch items-center gap-8">
+          {/* Plano Básico */}
+          <Card className="w-full max-w-md h-full flex flex-col transition-all duration-300 transform hover:shadow-xl hover:scale-[1.02]">
             <CardHeader className="border-b border-solid py-8 relative">
               <h2 className="text-center text-2xl font-semibold">
                 Plano Básico
@@ -36,12 +40,11 @@ const SubscriptionPage = async () => {
                 <span className="text-2xl text-muted-foreground">/mês</span>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6 py-8">
+            <CardContent className="space-y-6 py-8 flex-1">
               <div className="flex items-center gap-3">
                 <CheckIcon className="text-primary" />
                 <p>
-                  Apenas 10 transações por mês ({currentMonthTransactions}
-                  /10)
+                  Apenas 10 transações por mês ({currentMonthTransactions}/10)
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -51,7 +54,8 @@ const SubscriptionPage = async () => {
             </CardContent>
           </Card>
 
-          <Card className="w-[450px]">
+          {/* Plano Premium */}
+          <Card className="w-full max-w-md h-full flex flex-col transition-all duration-300 transform hover:shadow-xl hover:scale-[1.02]">
             <CardHeader className="relative border-b border-solid py-8">
               {hasSubscription && (
                 <Badge className="absolute left-4 top-12 bg-primary/10 text-primary">
@@ -67,7 +71,7 @@ const SubscriptionPage = async () => {
                 <span className="text-2xl text-muted-foreground">/mês</span>
               </div>
             </CardHeader>
-            <CardContent className="space-y-6 py-8">
+            <CardContent className="space-y-6 py-8 flex-1">
               <div className="flex items-center gap-3">
                 <CheckIcon className="text-primary" />
                 <p>Transações ilimitadas</p>
