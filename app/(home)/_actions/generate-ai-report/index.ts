@@ -1,15 +1,14 @@
 "use server";
 
-import { db } from "@/app/_lib/prisma";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { endOfMonth, startOfMonth } from "date-fns";
 import OpenAIApi from "openai";
 import { generateAiReportSchema, GenerateAiReportSchema } from "./schema";
+import { getMonthTransactions } from "@/app/_data/get-month-transations-from-any-date";
 
 const openAi = new OpenAIApi({ apiKey: process.env.OPENAI_API_KEY });
 
-export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
-  generateAiReportSchema.parse({ month });
+export const generateAiReport = async ({ date }: GenerateAiReportSchema) => {
+  generateAiReportSchema.parse({ date });
   const { userId } = await auth();
 
   if (!userId) {
@@ -24,17 +23,11 @@ export const generateAiReport = async ({ month }: GenerateAiReportSchema) => {
     throw new Error("User does not have a premium subscription");
   }
 
-  const getCurrentMonthTransactions = await db.transaction.findMany({
-    where: {
-      date: {
-        gte: startOfMonth(`2024-${month}-01`),
-        lt: endOfMonth(`2024-${month}-31`),
-      },
-    },
-  });
+  const transactions = await getMonthTransactions(date);
+  console.log("TRANSACTIONS", transactions);
 
   const content = `Gere um relatório com insights sobre as minhas finanças, com dicas e orientações de como melhorar minha vida financeira. As transações estão divididas por ponto e vírgula. A estrutura de cada uma é {DATA}-{TIPO}-{VALOR}-{CATEGORIA}. São elas:
-  ${getCurrentMonthTransactions
+  ${transactions
     .map(
       (transaction) =>
         `${transaction.date.toLocaleDateString("pt-BR")}-R$${transaction.amount}-${transaction.type}-${transaction.category}`,

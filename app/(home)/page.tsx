@@ -14,21 +14,32 @@ import AiReportButton from "./_components/ai-report-button";
 interface HomeProps {
   searchParams: {
     month: string;
+    year: string;
   };
 }
 
-const Home = async ({ searchParams: { month } }: HomeProps) => {
+const Home = async ({ searchParams: { month, year } }: HomeProps) => {
   const { userId } = await auth();
 
   if (!userId) {
     redirect("/login");
   }
-  const monthIsInvalid = !month || !isMatch(month, "MM");
+
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
+
+  const formattedMonth =
+    month?.padStart(2, "0") ?? String(currentMonth).padStart(2, "0");
+  const formattedYear = year ?? String(currentYear);
+  const formattedDate = `${formattedYear}-${formattedMonth}`;
+
+  const monthIsInvalid = !isMatch(formattedMonth, "MM");
+
   if (monthIsInvalid) {
-    redirect(`?month=${new Date().getMonth() + 1}`);
+    redirect(`?year=${formattedYear}&month=${formattedMonth}`);
   }
 
-  const dashboard = await getDashboard(month);
+  const dashboard = await getDashboard(`${formattedDate}`);
   const userCanAddTransaction = await canUserAddTransaction();
   const user = await clerkClient().users.getUser(userId);
 
@@ -40,7 +51,7 @@ const Home = async ({ searchParams: { month } }: HomeProps) => {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <div className="flex items-center gap-3">
             <AiReportButton
-              month={month}
+              date={`${formattedDate}`}
               hasPremiumPlan={
                 user?.publicMetadata?.subscriptionPlan === "premium"
               }
