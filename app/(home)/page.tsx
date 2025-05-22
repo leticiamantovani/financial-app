@@ -10,6 +10,7 @@ import ExpensesPerCategory from "./_components/expenses-per-category";
 import LastTransactions from "./_components/last-transactions";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import AiReportButton from "./_components/ai-report-button";
+import Head from "next/head";
 
 interface HomeProps {
   searchParams: {
@@ -45,6 +46,11 @@ const Home = async ({ searchParams: { month, year } }: HomeProps) => {
 
   return (
     <>
+      <Head>
+        <title>Finance logo</title>
+        <meta name="description" content="" />
+        <link rel="icon" href="/logo.png" />
+      </Head>
       <Navbar />
       <div className="p-6 space-y-6">
         <div className="flex justify-between">
