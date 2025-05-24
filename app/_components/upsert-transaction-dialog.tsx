@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "./ui/dialog";
 
 import { z } from "zod";
@@ -114,9 +113,8 @@ export const UpsertTransactionDialog = ({
         }
       }}
     >
-      <DialogTrigger asChild></DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
+      <DialogContent className="w-[95vw] max-w-md sm:rounded-lg max-h-[90dvh] overflow-y-auto px-4 sm:px-6 shadow-lg">
+        <DialogHeader className="text-center">
           <DialogTitle>
             {isUpdate ? "Atualizar" : "Criar"} transação
           </DialogTitle>
@@ -124,7 +122,7 @@ export const UpsertTransactionDialog = ({
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="name"
@@ -257,13 +255,13 @@ export const UpsertTransactionDialog = ({
               )}
             />
 
-            <DialogFooter>
-              <DialogClose>
-                <Button type="button" variant="outline">
+            <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end gap-y-3 sm:gap-2 pt-4">
+              <DialogClose asChild>
+                <Button type="button" variant="outline" className="w-full sm:w-auto">
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button type="submit">
+              <Button type="submit" className="w-full sm:w-auto">
                 {isUpdate ? "Atualizar" : "Criar"} transação
               </Button>
             </DialogFooter>
