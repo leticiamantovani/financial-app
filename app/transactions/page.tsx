@@ -27,7 +27,8 @@ const TransactionsPage = async () => {
     <>
       <Navbar />
       <div className="p-6 space-y-6 flex flex-col overflow-hidden">
-        <div className="flex w-full items-center justify-between">
+        {/* Cabeçalho */}
+        <div className="flex w-full items-center justify-between gap-2 flex-wrap">
           <h1 className="text-2xl font-bold">Transações</h1>
           <AddTransactionButton userCanAddTransaction={userCanAddTransaction} />
         </div>
@@ -42,14 +43,16 @@ const TransactionsPage = async () => {
           </div>
         </ScrollArea>
 
-        {/* Card View Mobile */}
+        {/* Cards Mobile */}
         <TransactionCardList
           transactions={transactions.map((t) => ({
             id: t.id,
             title: t.name,
             category: t.category,
             amount: Number(t.amount),
-            date: t.date instanceof Date ? t.date.toISOString() : t.date,
+            paymentMethod: t.paymentMethod,
+            date: t.date.toString(),
+            type: t.type, // INCOME ou EXPENSE
           }))}
         />
       </div>
