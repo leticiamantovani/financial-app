@@ -18,18 +18,26 @@ const SummaryCard = ({
   canAddTransaction,
 }: SummaryCardProps) => {
   return (
-    <Card className={`${size === "large" ? "bg-white bg-opacity-5" : ""}`}>
-      <CardHeader className="flex-row items-center gap-4">
-        {icon}
-        <p
-          className={`${size === "small" ? "text-muted-foreground" : "text-white opacity-70"}`}
-        >
-          {title}
-        </p>
+    <Card
+      className={`${
+        size === "large" ? "bg-white bg-opacity-5" : ""
+      } w-full`}
+    >
+      <CardHeader className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-start">
+        <div className="flex items-center gap-2">
+          {icon}
+          <p className={`text-center sm:text-left ${
+            size === "small" ? "text-muted-foreground" : "text-white opacity-70"
+          }`}>
+            {title}
+          </p>
+        </div>
       </CardHeader>
-      <CardContent className="flex justify-between">
+      <CardContent className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2">
         <p
-          className={`font-bold ${size === "small" ? "text-2xl" : "text-4xl"}`}
+          className={`font-bold ${
+            size === "small" ? "text-2xl" : "text-4xl"
+          } text-center sm:text-left`}
         >
           {Intl.NumberFormat("pt-BR", {
             style: "currency",
@@ -38,9 +46,11 @@ const SummaryCard = ({
         </p>
 
         {size === "large" && (
-          <AddTransactionButton
-            userCanAddTransaction={canAddTransaction as boolean}
-          />
+          <div className="sm:ml-auto">
+            <AddTransactionButton
+              userCanAddTransaction={canAddTransaction as boolean}
+            />
+          </div>
         )}
       </CardContent>
     </Card>
