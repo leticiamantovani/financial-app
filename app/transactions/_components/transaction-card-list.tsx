@@ -16,7 +16,11 @@ import {
   Car,
   PlugZap,
 } from "lucide-react";
-import { TRANSACTION_CATEGORY_LABELS, TRANSACTION_PAYMENT_METHOD_LABELS, TRANSACTION_TYPE_OPTIONS } from "@/app/_constants/transactions";
+import {
+  TRANSACTION_CATEGORY_LABELS,
+  TRANSACTION_PAYMENT_METHOD_LABELS,
+  TRANSACTION_TYPE_OPTIONS,
+} from "@/app/_constants/transactions";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +38,6 @@ import {
   AlertDialogAction,
 } from "@/app/_components/ui/alert-dialog";
 import { UpsertTransactionDialog } from "@/app/_components/upsert-transaction-dialog";
-
 
 interface Transaction {
   id: string;
@@ -58,9 +61,15 @@ const CATEGORY_ICONS: Record<string, JSX.Element> = {
   UTILITY: <PlugZap size={16} className="text-muted-foreground" />,
 };
 
-export default function TransactionCardList({ transactions }: { transactions: Transaction[] }) {
+export default function TransactionCardList({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) {
   const [openDialogId, setOpenDialogId] = useState<string | null>(null);
-  const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
+  const [editTransaction, setEditTransaction] = useState<Transaction | null>(
+    null,
+  );
 
   return (
     <div className="md:hidden flex flex-col gap-4">
@@ -106,12 +115,24 @@ export default function TransactionCardList({ transactions }: { transactions: Tr
             </div>
           </div>
 
-          <div className="text-sm text-muted-foreground">{TRANSACTION_PAYMENT_METHOD_LABELS[t.paymentMethod as keyof typeof TRANSACTION_PAYMENT_METHOD_LABELS]}</div>
+          <div className="text-sm text-muted-foreground">
+            {
+              TRANSACTION_PAYMENT_METHOD_LABELS[
+                t.paymentMethod as keyof typeof TRANSACTION_PAYMENT_METHOD_LABELS
+              ]
+            }
+          </div>
 
           {/* Categoria com ícone */}
           <div className="text-sm text-muted-foreground flex items-center gap-2">
-            {CATEGORY_ICONS[t.category] ?? <CircleHelp size={16} className="text-muted-foreground" />}
-            {TRANSACTION_CATEGORY_LABELS[t.category as keyof typeof TRANSACTION_CATEGORY_LABELS]}
+            {CATEGORY_ICONS[t.category] ?? (
+              <CircleHelp size={16} className="text-muted-foreground" />
+            )}
+            {
+              TRANSACTION_CATEGORY_LABELS[
+                t.category as keyof typeof TRANSACTION_CATEGORY_LABELS
+              ]
+            }
           </div>
 
           {/* Valor */}
@@ -120,14 +141,18 @@ export default function TransactionCardList({ transactions }: { transactions: Tr
               t.type === "EXPENSE"
                 ? "text-destructive"
                 : t.type === "INVESTMENT"
-                ? "text-green-300"
-                : "text-green-500"
+                  ? "text-green-300"
+                  : "text-green-500"
             }`}
           >
             Valor: R$ {t.amount.toFixed(2).replace(".", ",")}
           </div>
           <div className="text-sm text-muted-foreground">
-            Type: {TRANSACTION_TYPE_OPTIONS.find(option => option.value === t.type)?.label}
+            Type:{" "}
+            {
+              TRANSACTION_TYPE_OPTIONS.find((option) => option.value === t.type)
+                ?.label
+            }
           </div>
 
           {/* Modal de confirmação */}
@@ -139,7 +164,8 @@ export default function TransactionCardList({ transactions }: { transactions: Tr
               <AlertDialogHeader>
                 <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Tem certeza que deseja excluir esta transação? Essa ação não poderá ser desfeita.
+                  Tem certeza que deseja excluir esta transação? Essa ação não
+                  poderá ser desfeita.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -164,14 +190,15 @@ export default function TransactionCardList({ transactions }: { transactions: Tr
               defaultValues={{
                 name: editTransaction.title,
                 amount: Number(editTransaction.amount),
-                type: editTransaction.type as any,
-                category: editTransaction.category as any,
-                paymentMethod: "CASH" as any, 
+                type: editTransaction.type as (typeof TRANSACTION_TYPE_OPTIONS)[number]["value"],
+                category:
+                  editTransaction.category as keyof typeof TRANSACTION_CATEGORY_LABELS,
+                paymentMethod:
+                  "CASH" as keyof typeof TRANSACTION_PAYMENT_METHOD_LABELS,
                 date: new Date(editTransaction.date),
               }}
             />
           )}
-
         </div>
       ))}
     </div>
