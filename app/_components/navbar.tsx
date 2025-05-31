@@ -60,9 +60,20 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="flex flex-col gap-4 mt-4 px-6 md:hidden">
+      {/* Mobile drawer menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-background shadow-lg border-l border-border z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Botão de fechar no topo */}
+        <div className="flex justify-end p-4">
+          <button onClick={() => setIsMenuOpen(false)}>
+            <X size={20} className="text-muted-foreground" />
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-6 px-6">
           <Link href="/" className={navLinkClass("/")} onClick={toggleMenu}>
             Dashboard
           </Link>
@@ -82,7 +93,7 @@ const Navbar = () => {
           </Link>
           <UserButton showName />
         </div>
-      )}
+      </div>
     </nav>
   );
 };

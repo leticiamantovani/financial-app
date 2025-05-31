@@ -1,6 +1,7 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Navbar from "../_components/navbar";
+import Footer from "../_components/footer";
 import SummaryCards from "./_components/summary-cards";
 import TimeSelect from "./_components/time-select";
 import { isMatch } from "date-fns";
@@ -10,7 +11,6 @@ import ExpensesPerCategory from "./_components/expenses-per-category";
 import LastTransactions from "./_components/last-transactions";
 import { canUserAddTransaction } from "../_data/can-user-add-transaction";
 import AiReportButton from "./_components/ai-report-button";
-import Head from "next/head";
 
 interface HomeProps {
   searchParams: {
@@ -46,42 +46,52 @@ const Home = async ({ searchParams: { month, year } }: HomeProps) => {
 
   return (
     <>
-      <Head>
-        <title>Finance logo</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/logo.png" />
-      </Head>
       <Navbar />
-      <div className="p-6 space-y-6">
-        <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-3">
-            <AiReportButton
-              date={`${formattedDate}`}
-              hasPremiumPlan={
-                user?.publicMetadata?.subscriptionPlan === "premium"
-              }
-            />
-            <TimeSelect />
-          </div>
-        </div>
+      <div className="p-4 md:p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
+        {/* Título do dashboard */}
+        <h1 className="text-2xl font-bold">Dashboard</h1>
 
-        <div className="grid grid-cols-[2fr,1fr] gap-6">
+        {/* Filtros (desktop: à direita, mobile: abaixo) */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:ml-auto">
+          <AiReportButton
+            date={`${formattedDate}`}
+            hasPremiumPlan={user?.publicMetadata?.subscriptionPlan === "premium"}
+          />
+          <TimeSelect />
+        </div>
+      </div>
+
+        {/* Conteúdo principal */}
+        <div className="flex flex-col lg:grid lg:grid-cols-[2fr,1fr] gap-6">
           <div className="flex flex-col gap-6">
             <SummaryCards
               {...dashboard}
               userCanAddTransaction={userCanAddTransaction}
             />
-            <div className="grid grid-cols-3 grid-rows-1 gap-6">
-              <TransactionsPieChart {...dashboard} />
+
+            {/* Mobile: flex-col com centralização | md+: grid */}
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3">
+              <div className="flex justify-center md:block">
+                <div className="w-full max-w-md">
+                  <TransactionsPieChart {...dashboard} />
+                </div>
+              </div>
               <ExpensesPerCategory
                 expensesPerCategory={dashboard.totalExpensePerCategory}
               />
+              {/* Espaço reservado em lg */}
+              <div className="hidden lg:block" />
             </div>
           </div>
-          <LastTransactions lastTransactions={dashboard.lastTransactions} />
+
+          <div>
+            <LastTransactions lastTransactions={dashboard.lastTransactions} />
+          </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

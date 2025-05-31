@@ -17,15 +17,18 @@ import { useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import Markdown from "react-markdown";
 import Link from "next/link";
+import { cn } from "@/app/_lib/utils";
 
 interface AiReportButtonProps {
-  hasPremiumPlan: boolean;
   date: string;
+  hasPremiumPlan: boolean;
+  className?: string;
 }
 
-const AiReportButton = ({ date, hasPremiumPlan }: AiReportButtonProps) => {
+const AiReportButton = ({ date, hasPremiumPlan, className }: AiReportButtonProps) => {
   const [report, setReport] = useState<string | null>(null);
   const [reportIsLoading, setReportIsLoading] = useState(false);
+
   const handleGenerateReportClick = async () => {
     try {
       setReportIsLoading(true);
@@ -37,49 +40,56 @@ const AiReportButton = ({ date, hasPremiumPlan }: AiReportButtonProps) => {
       setReportIsLoading(false);
     }
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost">
-          Relatório IA
-          <BotIcon />
+        <Button
+          className={cn(
+            "rounded-full px-4 py-2 flex items-center gap-2 bg-white bg-opacity-5 text-white hover:bg-white/10",
+            className
+          )}
+        >
+          <BotIcon className="w-4 h-4" />
+          <span>Relatório IA</span>
         </Button>
       </DialogTrigger>
+
       <DialogContent className="max-w-[600px]">
         {hasPremiumPlan ? (
           <>
-            <DialogHeader>
+            <DialogHeader className="px-4">
               <DialogTitle>Relatório IA</DialogTitle>
               <DialogDescription>
                 Use inteligência artificial para gerar um relatório com insights
                 sobre suas finanças.
               </DialogDescription>
             </DialogHeader>
-            <ScrollArea className="prose max-h-[450px] text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">
+
+            <ScrollArea className="px-4 prose max-h-[450px] text-white prose-h3:text-white prose-h4:text-white prose-strong:text-white">
               <Markdown>{report}</Markdown>
             </ScrollArea>
-            <DialogFooter>
+
+            <DialogFooter className="px-4">
               <DialogClose asChild>
                 <Button variant="ghost">Cancelar</Button>
               </DialogClose>
-              <Button
-                onClick={handleGenerateReportClick}
-                disabled={reportIsLoading}
-              >
-                {reportIsLoading && <Loader2Icon className="animate-spin" />}
+              <Button onClick={handleGenerateReportClick} disabled={reportIsLoading}>
+                {reportIsLoading && <Loader2Icon className="animate-spin mr-2 h-4 w-4" />}
                 Gerar relatório
               </Button>
             </DialogFooter>
           </>
         ) : (
           <>
-            <DialogHeader>
+            <DialogHeader className="px-4">
               <DialogTitle>Relatório IA</DialogTitle>
               <DialogDescription>
                 Você precisa de um plano premium para gerar relatórios com IA.
               </DialogDescription>
             </DialogHeader>
-            <DialogFooter>
+
+            <DialogFooter className="px-4">
               <DialogClose asChild>
                 <Button variant="ghost">Cancelar</Button>
               </DialogClose>
