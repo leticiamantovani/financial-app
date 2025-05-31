@@ -6,6 +6,7 @@ import { CheckIcon, XIcon } from "lucide-react";
 import { Badge } from "../_components/ui/badge";
 import AquirePlanButton from "./_components/acquire-plan-button";
 import { getCurrentMonthTransactions } from "../_data/get-current-month-transactions";
+import Footer from "../_components/footer";
 
 const SubscriptionPage = async () => {
   const { userId } = await auth();
@@ -85,6 +86,8 @@ const SubscriptionPage = async () => {
           </Card>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };
